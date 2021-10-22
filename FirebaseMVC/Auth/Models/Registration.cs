@@ -6,6 +6,9 @@ namespace BusinessVenture.Auth.Models
     public class Registration
     {
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 

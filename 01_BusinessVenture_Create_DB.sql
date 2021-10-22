@@ -1,4 +1,4 @@
-Use[master]
+code Use[master]
 
 IF db_id('BusinessVenture') IS NOT NULL
 	DROP DATABASE [BusinessVenture];
