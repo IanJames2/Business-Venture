@@ -101,12 +101,14 @@ namespace BusinessVenture.Repositories
                 {
                     cmd.CommandText = @"
                                         INSERT INTO
-                                        UserProfile (Email, FirebaseUserId) 
+                                        UserProfile (Email, FirebaseUserId, Name) 
                                         OUTPUT INSERTED.ID
-                                        VALUES(@email, @firebaseUserId)";
+                                        VALUES(@email, @firebaseUserId, @name)";
 
                     cmd.Parameters.AddWithValue("@email", userProfile.Email);
                     cmd.Parameters.AddWithValue("@firebaseUserId", userProfile.FirebaseUserId);
+                    cmd.Parameters.AddWithValue("@name", userProfile.Name);
+
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
                 }

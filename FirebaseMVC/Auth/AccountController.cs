@@ -77,6 +77,7 @@ namespace BusinessVenture.Auth
 
             var newUserProfile = new UserProfile
             {
+                Name = registration.Name,
                 Email = fbUser.Email,
                 FirebaseUserId = fbUser.FirebaseUserId,
             };
