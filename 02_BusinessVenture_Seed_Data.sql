@@ -63,9 +63,10 @@ WHERE Business.UserProfileId = @userProfileId;
 
 /* GetBusinessById */
 
-SELECT Id, Business.UserProfileId, Business.Title, Business.[Location], Business.Slogan, Business.Equipment, Business.BusinessTypeId
+SELECT Business.Id, Business.UserProfileId, UserProfile.Name [UserProfile Name], Business.Title, Business.[Location], Business.Slogan, Business.Equipment, BusinessType.Type [BusinessType Type], Business.BusinessTypeId
 FROM Business
-WHERE Id = id;
+INNER JOIN UserProfile ON Business.UserProfileId = UserProfile.Id
+INNER JOIN BusinessType ON Business.BusinessTypeId = BusinessType.Id;
 
 
 /* AddBusiness */
@@ -74,6 +75,8 @@ INSERT INTO Business (UserProfileId, BusinessTypeId, Equipment, Title, [Location
 OUTPUT INSERTED.ID
 VALUES (@UserProfileId, @BusinessTypeId, @Equipment, @Title, @Location, @Slogan);
 
+
+SELECT * FROM UserProfile;
 
 /* UpdateBusiness */
 
@@ -92,4 +95,6 @@ WHERE Id = @id";
 
 DELETE FROM Business
 WHERE Id = @id
+
+
 
