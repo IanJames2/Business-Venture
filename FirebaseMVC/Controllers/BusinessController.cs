@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace BusinessVenture.Controllers
 {
     public class BusinessController : Controller
     {
         private readonly IBusinessRepository _businessRepo;
+
 
         public BusinessController(IBusinessRepository businessRepository)
         {
@@ -33,7 +35,13 @@ namespace BusinessVenture.Controllers
         // GET: BusinessController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Business business = _businessRepo.GetBusinessById(id);
+
+            if (business == null)
+            {
+                return NotFound();
+            }
+            return View(business);
         }
 
         // GET: BusinessController/Create

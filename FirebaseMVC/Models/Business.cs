@@ -14,5 +14,7 @@ namespace BusinessVenture.Models
         public string Title { get; set; }
         public string Location { get; set; }
         public string Slogan { get; set; }
+        public UserProfile UserProfile { get; set; }
+        public BusinessType BusinessType { get; set; }
     }
 }
