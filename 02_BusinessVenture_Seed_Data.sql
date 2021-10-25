@@ -49,3 +49,47 @@ INSERT INTO [BusinessStaff] (
 VALUES (1, 2, 2, '2021-10-21 00:00:00', 'Mid-Level Software Engineer'),
        (2, 1, 1, '2021-10-21 00:00:00', 'Senior Software Engineer')
 SET IDENTITY_INSERT [BusinessStaff] OFF
+
+
+
+
+/*--------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+/* GetAllBusinessesByUserProfileId */
+SELECT Business.Id, Business.UserProfileId, Business.Title, Business.[Location]
+FROM Business
+WHERE Business.UserProfileId = @userProfileId;
+
+/* GetBusinessById */
+
+SELECT Id, Business.UserProfileId, Business.Title, Business.[Location], Business.Slogan, Business.Equipment, Business.BusinessTypeId
+FROM Business
+WHERE Id = id;
+
+
+/* AddBusiness */
+
+INSERT INTO Business (UserProfileId, BusinessTypeId, Equipment, Title, [Location], Slogan)
+OUTPUT INSERTED.ID
+VALUES (@UserProfileId, @BusinessTypeId, @Equipment, @Title, @Location, @Slogan);
+
+
+/* UpdateBusiness */
+
+@"
+UPDATE Business
+SET 
+    UserProfileId = @userProfileId
+    BusinessTypeId = @businessTypeId, 
+    Equipment = @equipment, 
+    Title = @title, 
+    [Location] = @location,
+    Slogan = @slogan
+WHERE Id = @id"; 
+
+/* DeleteBusiness */
+
+DELETE FROM Business
+WHERE Id = @id
+
