@@ -90,9 +90,14 @@ namespace BusinessVenture.Controllers
 
             BusinessFormViewModel vm = new BusinessFormViewModel()
             {
-                Business = new Business(),
+                Business = _businessRepo.GetBusinessById(id),
                 BusinessTypes = businessTypes
             };
+
+            if (vm == null)
+            {
+                return NotFound();
+            }
 
             return View(vm);
         }
@@ -100,6 +105,7 @@ namespace BusinessVenture.Controllers
         // POST: BusinessController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Business business)
         {
             try

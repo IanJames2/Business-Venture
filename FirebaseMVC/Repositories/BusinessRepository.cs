@@ -69,11 +69,11 @@ namespace BusinessVenture.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Business.Id, UserProfile.Name [UserProfile Name], Business.UserProfileId, Business.Title, Business.[Location], Business.Slogan, Business.Equipment, BusinessType.Type [BusinessType Type], Business.BusinessTypeId
+                    cmd.CommandText = @"SELECT Business.Id AS Id, UserProfile.Id, UserProfile.Name [UserProfile Name], Business.UserProfileId, Business.Title, Business.[Location], Business.Slogan, Business.Equipment, BusinessType.Type [BusinessType Type], Business.BusinessTypeId
                                         FROM Business
                                         INNER JOIN UserProfile ON Business.UserProfileId = UserProfile.Id
-                                        INNER JOIN BusinessType ON Business.BusinessTypeId = BusinessType.Id;
-";
+                                        INNER JOIN BusinessType ON Business.BusinessTypeId = BusinessType.Id
+                                        WHERE Business.Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
 
