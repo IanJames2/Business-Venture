@@ -1,0 +1,58 @@
+﻿@model BusinessVenture.Models.ViewModels.BusinessFormViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Business</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Business.BusinessType" class="control-label"></label>
+                <select asp-for="Business.BusinessTypeId" class="form-control">
+                    <option value="">Select Neighborhood</option>
+                    @foreach (BusinessType businessType in Model.BusinessTypes)
+                    {
+                        <option value="@businessType.Id">@businessType.Type</option>
+                    }
+                </select>
+                <span asp-validation-for="Business.BusinessTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.Equipment" class="control-label"></label>
+                <input asp-for="Business.Equipment" class="form-control" />
+                <span asp-validation-for="Business.Equipment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.Title" class="control-label"></label>
+                <input asp-for="Business.Title" class="form-control" />
+                <span asp-validation-for="Business.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.Location" class="control-label"></label>
+                <input asp-for="Business.Location" class="form-control" />
+                <span asp-validation-for="Business.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.Slogan" class="control-label"></label>
+                <input asp-for="Business.Slogan" class="form-control" />
+                <span asp-validation-for="Business.Slogan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
