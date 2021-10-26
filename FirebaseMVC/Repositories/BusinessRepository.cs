@@ -147,7 +147,35 @@ namespace BusinessVenture.Repositories
 
         public void UpdateBusiness(Business business)
         {
-            throw new Exception();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Business
+                            SET 
+                                UserProfileId = @userProfileId, 
+                                BusinessTypeId = @businessTypeId, 
+                                Equipment = @equipment, 
+                                Title = @title, 
+                                Location = @location
+                                Slogan = @slogan
+                            WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@userProfileId", business.UserProfileId);
+                    cmd.Parameters.AddWithValue("@businessTypeId", business.BusinessTypeId);
+                    cmd.Parameters.AddWithValue("@equipment", business.Equipment);
+                    cmd.Parameters.AddWithValue("@title", business.Title);
+                    cmd.Parameters.AddWithValue("@location", business.Location);
+                    cmd.Parameters.AddWithValue("@slogan", business.Slogan);
+                    cmd.Parameters.AddWithValue("@id", business.Id);
+
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public void DeleteBusiness(int businessId)
