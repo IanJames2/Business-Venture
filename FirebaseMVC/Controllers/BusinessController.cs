@@ -4,6 +4,7 @@ using BusinessVenture.Models;
 using BusinessVenture.Repositories;
 using System;
 using System.Collections.Generic;
+using BusinessVenture.Models.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
@@ -15,11 +16,15 @@ namespace BusinessVenture.Controllers
     public class BusinessController : Controller
     {
         private readonly IBusinessRepository _businessRepo;
+        private readonly IBusinessTypeRepository _businessTypeRepo;
 
 
-        public BusinessController(IBusinessRepository businessRepository)
+        public BusinessController(
+            IBusinessRepository businessRepository, 
+            IBusinessTypeRepository businessTypeRepository)
         {
             _businessRepo = businessRepository;
+            _businessTypeRepo = businessTypeRepository;
         }
 
         // GET: BusinessController
@@ -47,21 +52,34 @@ namespace BusinessVenture.Controllers
         // GET: BusinessController/Create
         public ActionResult Create()
         {
-            return View();
+            List<BusinessType> businessTypes = _businessTypeRepo.GetAll();
+
+            BusinessFormViewModel vm = new BusinessFormViewModel()
+            {
+                Business = new Business(),
+                BusinessTypes = businessTypes
+            };
+
+            return View(vm);
         }
 
         // POST: BusinessController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [Authorize]
+        public ActionResult Create(Business business)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                business.UserProfileId = GetCurrentUserId();
+
+                _businessRepo.AddBusiness(business);
+
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(business);
             }
         }
 

@@ -119,9 +119,31 @@ namespace BusinessVenture.Repositories
         }
 
     public void AddBusiness(Business business)
+    {
+        using (SqlConnection conn = Connection)
         {
-            throw new Exception();
+            conn.Open();
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"
+                INSERT INTO Business (UserProfileId, BusinessTypeId, Equipment, Title, [Location], Slogan)
+                OUTPUT INSERTED.ID
+                VALUES (@UserProfileId, @BusinessTypeId, @Equipment, @Title, @Location, @Slogan);
+            ";
+
+                cmd.Parameters.AddWithValue("@userProfileId", business.UserProfileId);
+                cmd.Parameters.AddWithValue("@businessTypeId", business.BusinessTypeId);
+                cmd.Parameters.AddWithValue("@equipment", business.Equipment);
+                cmd.Parameters.AddWithValue("@title", business.Title);
+                cmd.Parameters.AddWithValue("@location", business.Location);
+                cmd.Parameters.AddWithValue("@slogan", business.Slogan);
+
+                int newlyCreatedId = (int)cmd.ExecuteScalar();
+
+                business.Id = newlyCreatedId;
+            }
         }
+    }
 
         public void UpdateBusiness(Business business)
         {
