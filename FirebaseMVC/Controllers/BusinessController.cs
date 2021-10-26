@@ -114,7 +114,7 @@ namespace BusinessVenture.Controllers
 
                 _businessRepo.UpdateBusiness(business);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
             catch (Exception ex)
             {
