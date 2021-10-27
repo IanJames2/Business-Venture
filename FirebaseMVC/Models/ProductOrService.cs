@@ -9,7 +9,7 @@ namespace BusinessVenture.Models
     {
         public int Id { get; set; }
         public int BusinessId { get; set; }
-        public string NameOfProduct { get; set; }
+        public string NameOfProductOrService { get; set; }
         public int Cost { get; set; }
     }
 }

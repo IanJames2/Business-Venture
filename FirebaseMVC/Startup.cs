@@ -26,6 +26,8 @@ namespace BusinessVenture
             services.AddTransient<IFirebaseAuthService, FirebaseAuthService>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IBusinessTypeRepository, BusinessTypeRepository>();
+            services.AddTransient<IProductOrServiceRepository, ProductOrServiceRepository>();
+
 
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();

@@ -63,7 +63,7 @@ WHERE Business.UserProfileId = @userProfileId;
 
 /* GetBusinessById */
 
-SELECT Business.Id, Business.UserProfileId, UserProfile.Name [UserProfile Name], Business.Title, Business.[Location], Business.Slogan, Business.Equipment, BusinessType.Type [BusinessType Type], Business.BusinessTypeId
+SELECT Business.Id, Business.UserProfileId, UserProfile.[Name] [UserProfile Name], Business.Title, Business.[Location], Business.Slogan, Business.Equipment, BusinessType.Type [BusinessType Type], Business.BusinessTypeId
 FROM Business
 INNER JOIN UserProfile ON Business.UserProfileId = UserProfile.Id
 INNER JOIN BusinessType ON Business.BusinessTypeId = BusinessType.Id;
@@ -74,9 +74,6 @@ INNER JOIN BusinessType ON Business.BusinessTypeId = BusinessType.Id;
 INSERT INTO Business (UserProfileId, BusinessTypeId, Equipment, Title, [Location], Slogan)
 OUTPUT INSERTED.ID
 VALUES (@UserProfileId, @BusinessTypeId, @Equipment, @Title, @Location, @Slogan);
-
-
-SELECT * FROM UserProfile;
 
 /* UpdateBusiness */
 
@@ -94,6 +91,43 @@ WHERE Id = @id";
 /* DeleteBusiness */
 
 DELETE FROM Business
+WHERE Id = @id
+
+/*--------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* GetAllProductsOrServicesByUserProfileId */
+
+SELECT ProductOrService.Id, ProductOrService.BusinessId, Business.UserProfileId, ProductOrService.NameOfProductOrService, ProductOrService.Cost 
+FROM ProductOrService
+INNER JOIN Business ON ProductOrService.BusinessId = Business.Id
+WHERE Business.UserProfileId = @userProfileId;
+
+/* GetProductOrServiceById */
+
+SELECT ProductOrService.Id, ProductOrService.BusinessId, Business.Title [Business.Title], ProductOrService.NameOfProductOrService, ProductOrService.Cost 
+FROM ProductOrService
+INNER JOIN Business ON ProductOrService.BusinessId = Business.Id
+ORDER BY NameOfProductOrService ASC;
+
+/* AddProductOrService */
+
+INSERT INTO ProductOrService (BusinessId, NameOfProductOrService, Cost)
+OUTPUT INSERTED.ID
+VALUES (@BusinessId, @NameOfProductOrService, @Cost);
+
+/* UpdateProductOrService */
+
+@"
+UPDATE Product
+    SET 
+        BusinessId = @businessId, 
+        NameOfProductOrService = @nameOfProductOrService, 
+        Cost = @cost, 
+    WHERE Id = @id";
+
+/* DeleteProductOrService */
+
+DELETE FROM ProductOrService
 WHERE Id = @id
 
 
