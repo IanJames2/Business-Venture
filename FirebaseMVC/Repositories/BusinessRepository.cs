@@ -160,7 +160,7 @@ namespace BusinessVenture.Repositories
                                 BusinessTypeId = @businessTypeId, 
                                 Equipment = @equipment, 
                                 Title = @title, 
-                                Location = @location
+                                Location = @location,
                                 Slogan = @slogan
                             WHERE Id = @id";
 

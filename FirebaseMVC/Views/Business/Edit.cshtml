@@ -16,7 +16,7 @@
                 <input asp-for="Business.Id" type="hidden" />
             </div>
             <div class="form-group">
-                <label asp-for="Business.BusinessType" class="control-label"></label>
+                <label asp-for="Business.BusinessTypeId" class="control-label"></label>
                 <select asp-for="Business.BusinessTypeId" class="form-control">
                     <option value="">Select Business Type</option>
                     @foreach (BusinessType businessType in Model.BusinessTypes)
@@ -47,7 +47,7 @@
                 <span asp-validation-for="Business.Slogan" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
