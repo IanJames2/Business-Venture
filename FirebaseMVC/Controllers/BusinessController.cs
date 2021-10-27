@@ -125,21 +125,25 @@ namespace BusinessVenture.Controllers
         // GET: BusinessController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+                Business business = _businessRepo.GetBusinessById(id);
+
+                return View(business);
         }
 
         // POST: BusinessController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Business business)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _businessRepo.DeleteBusiness(id);
+
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(business);
             }
         }
 

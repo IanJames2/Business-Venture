@@ -180,7 +180,22 @@ namespace BusinessVenture.Repositories
 
         public void DeleteBusiness(int businessId)
         {
-            throw new Exception();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE FROM Business
+                            WHERE Id = @id
+                        ";
+
+                    cmd.Parameters.AddWithValue("@id", businessId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
 
