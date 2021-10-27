@@ -86,21 +86,39 @@ namespace BusinessVenture.Controllers
         // GET: BusinessController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            List<BusinessType> businessTypes = _businessTypeRepo.GetAll();
+
+            BusinessFormViewModel vm = new BusinessFormViewModel()
+            {
+                Business = _businessRepo.GetBusinessById(id),
+                BusinessTypes = businessTypes
+            };
+
+            if (vm == null)
+            {
+                return NotFound();
+            }
+
+            return View(vm);
         }
 
         // POST: BusinessController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [Authorize]
+        public ActionResult Edit(int id, Business business)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                business.UserProfileId = GetCurrentUserId();
+
+                _businessRepo.UpdateBusiness(business);
+
+                return RedirectToAction("Details", "Business", new {id = business.Id});
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(business);
             }
         }
 
