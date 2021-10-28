@@ -33,9 +33,9 @@ namespace BusinessVenture.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT ProductOrService.Id, ProductOrService.BusinessId, Business.UserProfileId, ProductOrService.NameOfProductOrService, ProductOrService.Cost 
+                        SELECT ProductOrService.Id, ProductOrService.BusinessId, Business.Title, Business.UserProfileId, ProductOrService.NameOfProductOrService, ProductOrService.Cost 
                         FROM ProductOrService
-                        INNER JOIN Business 
+                        JOIN Business 
                         ON ProductOrService.BusinessId = Business.Id
                         WHERE Business.UserProfileId = @userProfileId";
 
@@ -51,8 +51,11 @@ namespace BusinessVenture.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             BusinessId = reader.GetInt32(reader.GetOrdinal("BusinessId")),
                             NameOfProductOrService = reader.GetString(reader.GetOrdinal("NameOfProductOrService")),
-                            Cost = reader.GetInt32(reader.GetOrdinal("Cost"))
-
+                            Cost = reader.GetInt32(reader.GetOrdinal("Cost")),
+                            Business = new Business
+                            {
+                                Title = reader.GetString(reader.GetOrdinal("Title"))
+                            }
                         };
                         productsOrServices.Add(productOrService);
                     }
@@ -137,7 +140,26 @@ namespace BusinessVenture.Repositories
 
         public void UpdateProductOrService(ProductOrService productOrService)
         {
-            throw new Exception();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Product
+                            SET 
+                                BusinessId = @businessId, 
+                                NameOfProductOrService = @nameOfProductOrService, 
+                                Cost = @cost, 
+                            WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@businessId", productOrService.BusinessId);
+                    cmd.Parameters.AddWithValue("@nameOfProductOrService", productOrService.NameOfProductOrService);
+                    cmd.Parameters.AddWithValue("@cost", productOrService.Cost);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public void DeleteProductOrService(int productOrServiceId)
