@@ -40,7 +40,13 @@ namespace BusinessVenture.Controllers
         // GET: ProductOrServiceController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            ProductOrService productOrService = _productOrServiceRepo.GetProductOrServiceById(id);
+
+            if (productOrService == null)
+            {
+                return NotFound();
+            }
+            return View(productOrService);
         }
 
         // GET: ProductOrServiceController/Create

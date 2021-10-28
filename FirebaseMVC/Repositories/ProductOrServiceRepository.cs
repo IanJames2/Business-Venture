@@ -66,7 +66,49 @@ namespace BusinessVenture.Repositories
 
         public ProductOrService GetProductOrServiceById(int id)
         {
-            throw new Exception();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT ProductOrService.Id AS Id, ProductOrService.BusinessId, Business.Id, Business.Title [Business Title], ProductOrService.NameOfProductOrService, ProductOrService.Cost 
+                                        FROM ProductOrService
+                                        INNER JOIN Business ON ProductOrService.BusinessId = Business.Id
+                                        WHERE ProductOrService.Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        ProductOrService productOrService  = new ProductOrService
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            BusinessId = reader.GetInt32(reader.GetOrdinal("BusinessId")),
+                            NameOfProductOrService = reader.GetString(reader.GetOrdinal("NameOfProductOrService")),
+                            Cost = reader.GetInt32(reader.GetOrdinal("Cost"))
+                        };
+                        
+                        if (!reader.IsDBNull(reader.GetOrdinal("BusinessId")))
+                        {
+                            productOrService.Business = new Business
+                            {
+                                Title = reader.GetString(reader.GetOrdinal("Business Title"))
+                            };
+                        }
+                        
+
+                        reader.Close();
+                        return productOrService;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        return null;
+                    }
+                }
+            }
         }
 
         public void AddProductOrService(ProductOrService productOrService)
