@@ -11,3 +11,5 @@ namespace BusinessVenture.Models.ViewModels
         public List<Business> Businesses { get; set; }
     }
 }
+
+
