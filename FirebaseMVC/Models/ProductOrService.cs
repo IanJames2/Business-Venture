@@ -11,5 +11,6 @@ namespace BusinessVenture.Models
         public int BusinessId { get; set; }
         public string NameOfProductOrService { get; set; }
         public int Cost { get; set; }
+        public Business Business { get; set; }
     }
 }
