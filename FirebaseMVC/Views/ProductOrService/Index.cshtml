@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BusinessVenture.Models.ViewModels.ProductOrServiceFormViewModel>
+﻿@model IEnumerable<BusinessVenture.Models.ProductOrService>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,14 +13,12 @@
     <thead>
         <tr>
 
+
             <th>
-                @Html.DisplayNameFor(model => model.Business.Title)
+                @Html.DisplayNameFor(model => model.NameOfProductOrService)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductOrService.NameOfProductOrService)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductOrService.Cost)
+                @Html.DisplayNameFor(model => model.Cost)
             </th>
             <th></th>
         </tr>
@@ -30,18 +28,15 @@
         <tr>
 
             <td>
-                @Html.DisplayFor(modelItem => item.Business.Title)
+                @Html.DisplayFor(modelItem => item.NameOfProductOrService)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductOrService.NameOfProductOrService)
+                @Html.DisplayFor(modelItem => item.Cost)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductOrService.Cost)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ProductOrService.Id }) |
-                @Html.ActionLink("Details", "Details", new { item.ProductOrService.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { item.ProductOrService.Id })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { item.Id })
             </td>
         </tr>
 }

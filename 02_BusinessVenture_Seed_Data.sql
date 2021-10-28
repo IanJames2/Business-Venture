@@ -63,11 +63,11 @@ WHERE Business.UserProfileId = @userProfileId;
 
 /* GetBusinessById */
 
-SELECT Business.Id, Business.UserProfileId, UserProfile.[Name] [UserProfile Name], Business.Title, Business.[Location], Business.Slogan, Business.Equipment, BusinessType.Type [BusinessType Type], Business.BusinessTypeId
-FROM Business
-INNER JOIN UserProfile ON Business.UserProfileId = UserProfile.Id
-INNER JOIN BusinessType ON Business.BusinessTypeId = BusinessType.Id;
-
+SELECT Business.Id AS Id, UserProfile.Id, UserProfile.Name [UserProfile Name], Business.UserProfileId, Business.Title, Business.[Location], Business.Slogan, Business.Equipment, BusinessType.Type [BusinessType Type], Business.BusinessTypeId
+                                        FROM Business
+                                        INNER JOIN UserProfile ON Business.UserProfileId = UserProfile.Id
+                                        INNER JOIN BusinessType ON Business.BusinessTypeId = BusinessType.Id
+                                        WHERE Business.Id = @id
 
 /* AddBusiness */
 
@@ -107,7 +107,7 @@ WHERE Business.UserProfileId = @userProfileId;
 SELECT ProductOrService.Id, ProductOrService.BusinessId, Business.Title [Business.Title], ProductOrService.NameOfProductOrService, ProductOrService.Cost 
 FROM ProductOrService
 INNER JOIN Business ON ProductOrService.BusinessId = Business.Id
-ORDER BY NameOfProductOrService ASC;
+WHERE ProductOrService.Id = @id
 
 /* AddProductOrService */
 
