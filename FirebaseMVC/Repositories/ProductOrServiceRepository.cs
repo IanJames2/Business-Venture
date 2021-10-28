@@ -113,7 +113,26 @@ namespace BusinessVenture.Repositories
 
         public void AddProductOrService(ProductOrService productOrService)
         {
-            throw new Exception();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    INSERT INTO ProductOrService (BusinessId, NameOfProductOrService, Cost)
+                    OUTPUT INSERTED.ID
+                    VALUES (@BusinessId, @NameOfProductOrService, @Cost);
+                    ";
+
+                    cmd.Parameters.AddWithValue("@businessId", productOrService.BusinessId);
+                    cmd.Parameters.AddWithValue("@nameofProductOrService", productOrService.NameOfProductOrService);
+                    cmd.Parameters.AddWithValue("@cost", productOrService.Cost);
+
+                    int newlyCreatedId = (int)cmd.ExecuteScalar();
+
+                    productOrService.Id = newlyCreatedId;
+                }
+            }
         }
 
         public void UpdateProductOrService(ProductOrService productOrService)

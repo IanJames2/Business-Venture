@@ -52,21 +52,34 @@ namespace BusinessVenture.Controllers
         // GET: ProductOrServiceController/Create
         public ActionResult Create()
         {
-            return View();
+            int userProfileId = GetCurrentUserId();
+            List<Business> business = _businessRepo.GetAllBusinessesByUserProfileId(userProfileId);
+
+            ProductOrServiceFormViewModel vm = new ProductOrServiceFormViewModel()
+            {
+                ProductOrService = new ProductOrService(),
+                Businesses = business
+            };
+
+            return View(vm);
         }
 
         // POST: ProductOrServiceController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(ProductOrService productOrService, Business business)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                business.UserProfileId = GetCurrentUserId();
+
+                _productOrServiceRepo.AddProductOrService(productOrService);
+
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(productOrService);
             }
         }
 
