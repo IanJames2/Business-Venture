@@ -86,7 +86,21 @@ namespace BusinessVenture.Controllers
         // GET: ProductOrServiceController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            int userProfileId = GetCurrentUserId();
+            List<Business> business = _businessRepo.GetAllBusinessesByUserProfileId(userProfileId);
+
+            ProductOrServiceFormViewModel vm = new ProductOrServiceFormViewModel()
+            {
+                ProductOrService = _productOrServiceRepo.GetProductOrServiceById(id),
+                Businesses = business
+            };
+
+            if (vm == null)
+            {
+                return NotFound();
+            }
+
+            return View(vm);
         }
 
         // POST: ProductOrServiceController/Edit/5
