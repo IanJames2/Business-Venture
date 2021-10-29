@@ -34,7 +34,7 @@ namespace BusinessVenture.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Id, Email, FirebaseUserId
+                                    SELECT Id, Name, Email, FirebaseUserId
                                     FROM UserProfile
                                     WHERE Id = @Id";
 
@@ -48,6 +48,7 @@ namespace BusinessVenture.Repositories
                         userProfile = new UserProfile
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
                             FirebaseUserId = reader.GetString(reader.GetOrdinal("FirebaseUserId")),
                         };
@@ -55,6 +56,45 @@ namespace BusinessVenture.Repositories
                     reader.Close();
 
                     return userProfile;
+                }
+            }
+        }
+
+        public UserProfile GetUserProfileById(int id)
+        {
+            {
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"
+                                    SELECT Id, Name, Email, FirebaseUserId
+                                    FROM UserProfile
+                                    WHERE Id = @Id";
+
+                        cmd.Parameters.AddWithValue("@id", id);
+
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            UserProfile userProfile = new UserProfile
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Name = reader.GetString(reader.GetOrdinal("Name")),
+                                Email = reader.GetString(reader.GetOrdinal("Email")),
+                                FirebaseUserId = reader.GetString(reader.GetOrdinal("FirebaseUserId")),
+                            };
+                            reader.Close();
+                            return userProfile;
+                        }
+                        else
+                        {
+                            reader.Close();
+                            return null;
+                        }
+                    }
                 }
             }
         }
