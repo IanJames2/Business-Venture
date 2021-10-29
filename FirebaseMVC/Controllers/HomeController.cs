@@ -29,6 +29,13 @@ namespace BusinessVenture.Controllers
             return View();
         }
 
+        public IActionResult Details()
+        {
+            var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userProfile = _userProfileRepository.GetById(userProfileId);
+            return View(userProfile);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
