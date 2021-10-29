@@ -67,6 +67,7 @@ namespace BusinessVenture.Controllers
         // POST: ProductOrServiceController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(ProductOrService productOrService, Business business)
         {
             try
@@ -106,15 +107,20 @@ namespace BusinessVenture.Controllers
         // POST: ProductOrServiceController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [Authorize]
+        public ActionResult Edit(int id, ProductOrService productOrService, Business business)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                business.UserProfileId = GetCurrentUserId();
+
+                _productOrServiceRepo.UpdateProductOrService(productOrService);
+
+                return RedirectToAction("Details", "ProductOrService", new { id = productOrService.Id });
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(productOrService);
             }
         }
 
