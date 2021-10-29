@@ -166,7 +166,22 @@ namespace BusinessVenture.Repositories
 
         public void DeleteProductOrService(int productOrServiceId)
         {
-            throw new Exception();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE FROM ProductOrService
+                            WHERE Id = @id
+                        ";
+
+                    cmd.Parameters.AddWithValue("@id", productOrServiceId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
