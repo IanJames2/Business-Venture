@@ -8,5 +8,6 @@ namespace BusinessVenture.Repositories
         UserProfile GetUserProfileById(int id);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
         UserProfile GetById(int id);
+        void UpdateUserProfile(UserProfile userProfile);
     }
 }

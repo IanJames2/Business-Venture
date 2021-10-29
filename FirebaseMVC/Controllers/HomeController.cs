@@ -4,6 +4,8 @@ using BusinessVenture.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using BusinessVenture.Repositories;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace BusinessVenture.Controllers
 {
@@ -41,5 +43,45 @@ namespace BusinessVenture.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult Edit()
+        {
+            var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userProfile = _userProfileRepository.GetById(userProfileId);
+
+
+            UserProfile vm = new UserProfile()
+            {
+                UP = _userProfileRepository.GetById(userProfileId),
+            };
+
+            if (vm == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(userProfile);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult Edit(int id, UserProfile userProfile)
+        {
+            try
+            {
+                var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+                _userProfileRepository.UpdateUserProfile(userProfile);
+
+                return RedirectToAction("Details", "Home", new { id = userProfile.Id });
+            }
+            catch (Exception ex)
+            {
+                return View(userProfile);
+            }
+        }
+
     }
 }

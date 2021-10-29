@@ -154,5 +154,29 @@ namespace BusinessVenture.Repositories
                 }
             }
         }
+
+        public void UpdateUserProfile(UserProfile userProfile)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE UserProfile
+                            SET 
+                                Name = @name
+                            WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@name", userProfile.Name);
+                    cmd.Parameters.AddWithValue("@id", userProfile.Id);
+
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
