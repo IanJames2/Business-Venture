@@ -197,7 +197,5 @@ namespace BusinessVenture.Repositories
                 }
             }
         }
-
-
     }
 }

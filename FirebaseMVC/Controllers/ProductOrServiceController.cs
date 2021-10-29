@@ -127,21 +127,25 @@ namespace BusinessVenture.Controllers
         // GET: ProductOrServiceController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            ProductOrService productOrService = _productOrServiceRepo.GetProductOrServiceById(id);
+
+            return View(productOrService);
         }
 
         // POST: ProductOrServiceController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, ProductOrService productOrService)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _productOrServiceRepo.DeleteProductOrService(id);
+
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(productOrService);
             }
         }
 
