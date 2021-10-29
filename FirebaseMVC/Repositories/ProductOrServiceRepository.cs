@@ -147,15 +147,17 @@ namespace BusinessVenture.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        UPDATE Product
+                        UPDATE ProductOrService
                             SET 
                                 BusinessId = @businessId, 
                                 NameOfProductOrService = @nameOfProductOrService, 
-                                Cost = @cost, 
+                                Cost = @cost
                             WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@businessId", productOrService.BusinessId);
                     cmd.Parameters.AddWithValue("@nameOfProductOrService", productOrService.NameOfProductOrService);
                     cmd.Parameters.AddWithValue("@cost", productOrService.Cost);
+                    cmd.Parameters.AddWithValue("@id", productOrService.Id);
+
 
                     cmd.ExecuteNonQuery();
                 }

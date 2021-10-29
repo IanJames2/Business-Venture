@@ -1,0 +1,49 @@
+﻿@model BusinessVenture.Models.ViewModels.ProductOrServiceFormViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Product Or Service</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="ProductOrService.Id" type="hidden" />
+            </div>
+            <div class="form-group">
+                <label>Business</label>
+                <select asp-for="ProductOrService.BusinessId" class="form-control">
+                    <option value="">Select A Business For This Product </option>
+                    @foreach (Business business in Model.Businesses)
+                    {
+                        <option value="@business.Id">@business.Title</option>
+                    }
+                </select>
+                <span asp-validation-for="ProductOrService.Business.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductOrService.NameOfProductOrService" class="control-label"></label>
+                <input asp-for="ProductOrService.NameOfProductOrService" class="form-control" />
+                <span asp-validation-for="ProductOrService.NameOfProductOrService" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductOrService.Cost" class="control-label"></label>
+                <input asp-for="ProductOrService.Cost" class="form-control" />
+                <span asp-validation-for="ProductOrService.Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
