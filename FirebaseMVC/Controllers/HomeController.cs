@@ -50,12 +50,8 @@ namespace BusinessVenture.Controllers
             var userProfile = _userProfileRepository.GetById(userProfileId);
 
 
-            UserProfile vm = new UserProfile()
-            {
-                UP = _userProfileRepository.GetById(userProfileId),
-            };
 
-            if (vm == null)
+            if (userProfile == null)
             {
                 return NotFound();
             }

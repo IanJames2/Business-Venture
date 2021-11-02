@@ -37,7 +37,7 @@ namespace BusinessVenture.Repositories
                                     SELECT Id, Name, Email, FirebaseUserId
                                     FROM UserProfile
                                     WHERE Id = @Id";
-
+                    //This is for security!
                     cmd.Parameters.AddWithValue("@id", id);
 
                     UserProfile userProfile = null;
@@ -45,6 +45,7 @@ namespace BusinessVenture.Repositories
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
+                        //C# object
                         userProfile = new UserProfile
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),

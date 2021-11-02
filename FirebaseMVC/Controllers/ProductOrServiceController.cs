@@ -9,6 +9,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+
 
 
 namespace BusinessVenture.Controllers
