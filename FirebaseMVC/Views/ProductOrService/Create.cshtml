@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label asp-for="ProductOrService.Business.Title" class="control-label"></label>
                 <select asp-for="ProductOrService.BusinessId" class="form-control">
-                    <option value="">Select Business Type</option>
+                    <option value="">Select A Business </option>
                     @foreach (Business business in Model.Businesses)
                     {
                         <option value="@business.Id">@business.Title</option>
