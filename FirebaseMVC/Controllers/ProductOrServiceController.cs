@@ -11,6 +11,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.Collections;
+
+
 
 
 
@@ -31,11 +34,12 @@ namespace BusinessVenture.Controllers
         }
 
         // GET: ProductOrServiceController
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             int userProfileId = GetCurrentUserId();
 
             List<ProductOrService> productsOrServices = _productOrServiceRepo.GetAllProductsOrServicesByUserProfileId(userProfileId);
+
 
             return View(productsOrServices);
         }
