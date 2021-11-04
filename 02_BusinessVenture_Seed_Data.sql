@@ -130,5 +130,26 @@ UPDATE Product
 DELETE FROM ProductOrService
 WHERE Id = @id
 
+/*--------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* GetAllStaffByUserProfileId */
+
+
+
+/* GetStaffById */
+
+
+
+/* AddStaff */
+
+
+
+/* UpdateStaff */
+
+
+
+
+/* DeleteStaff */
+
 
 
