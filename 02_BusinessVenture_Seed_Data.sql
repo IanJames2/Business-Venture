@@ -130,5 +130,47 @@ UPDATE Product
 DELETE FROM ProductOrService
 WHERE Id = @id
 
+/*--------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* GetAllStaffByUserProfileId */
+
+SELECT s.Id, s.[Name], s.Email, s.PhoneNumber, s.[Address], b.UserProfileId, b.Title, b.[Location], bs.Id, bs.DateEmployed, bs.positionTitle
+FROM BusinessStaff bs
+LEFT JOIN Business b ON bs.BusinessId = b.Id
+LEFT JOIN Staff s ON s.Id = bs.StaffId
+WHERE b.UserProfileId = @userProfileId;
+
+/* GetStaffById */
+
+SELECT s.Id, s.[Name], s.Email, s.PhoneNumber, s.[Address], b.UserProfileId, b.Title, b.[Location], bs.Id, bs.DateEmployed, bs.positionTitle
+FROM BusinessStaff bs
+LEFT JOIN Business b ON bs.BusinessId = b.Id
+LEFT JOIN Staff s ON s.Id = bs.StaffId
+WHERE s.Id = id;
+
+/* AddStaff */
+
+INSERT INTO Staff (Id, [Name], Email, PhoneNumber, [Address])
+OUTPUT INSERTED.ID
+VALUES (@Id, @Name, @Email, @PhoneNumber, @Address)
+
+
+/* UpdateStaff */
+
+@"UPDATE Staff 
+	SET
+		Id = @id,
+		[Name] = @name,
+		Email = @email,
+		PhoneNumber = @phoneNumber,
+		[Address] = @address
+	WHERE Id = @id";
+
+
+
+/* DeleteStaff */
+
+DELETE FROM Staff
+WHERE Id = @id;
 
 
